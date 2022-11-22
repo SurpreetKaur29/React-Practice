@@ -43,7 +43,7 @@ tr {
   max-width: fit-content;
   padding: 50px 65px;
 }
-input[type="text"] {
+input {
   background: white;
   border: none;
   height: 40px;

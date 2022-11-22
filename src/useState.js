@@ -3,19 +3,28 @@ import "./index.css";
 
 
 const EvenOdd = () => {
-  const [name, setName] = useState("World");
-  const changeName = () => setName(name == "World" ? "Everyone" : "World");
-  
+  const [categories, setCategories] = React.useState([]);
+  const [item, setItem] = React.useState("");
+
+  const addCategory = e => { 
+    const trimmed = item.trim();
+
+    if (trimmed && !categories.includes(trimmed)) {
+      setCategories(prevState => prevState.concat(trimmed));
+    }
+  };
+
   return (
-    <>
-      <div className="margin-auto">
-        <div className="counter">
-          <p>Hello {name}</p>
-          <button onClick={changeName}>Change Name</button>
-        </div>
-      </div>
-    </>
+    <div>
+      <input
+        onChange={e => setItem(e.target.value)}
+        value={item}
+      />&nbsp;
+      <button onClick={addCategory}>Add Item</button>
+      <ul>{categories.map(e => <li key={e}>{e}</li>)}</ul>
+    </div>
   );
 };
+
 
 export default EvenOdd;

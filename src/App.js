@@ -6,29 +6,41 @@ import { MdDeleteOutline } from "react-icons/md";
 const App = () => {
   const [data, setData] = useState([]);
   const [info, setInfo] = useState({
-    name: "Cuilsoft",
-    email: "cuilsoft@gmail.com",
+    name: "",
+    email: "",
   });
+
   const updatedInfo = (e) => {
     setInfo({
       ...info,
-      [e.target.name]: e.target.value,
+      [e.target.reset]: e.target.value,
+    });
+  };
+
+  const updatedInfo2 = (e) => {
+    setInfo({
+      ...info,
+      [e.target.reset]: e.target.value,
     });
   };
   const printInfo = (e) => {
     e.preventDefault();
-    setData([...data, info]);
-    setInfo({
-      name: "",
-      email: "",
-    });
+    
+    if(data){
+      setData([...data, info]);
+      setInfo({
+        name: "",
+        email: "",
+      });
+      console.log(data.findIndex);
+    } else{
+      alert("Email repetition not allowed!");
+    }
   };
   const Deleted = (index, e) => {
     setData(data.filter((item, i) => i !== index));
   };
-  const Edited = () => {
-
-  };
+  const Edited = () => {};
   // const [number, setNumber] = useState(0);
 
   // function addition() {
@@ -58,7 +70,7 @@ const App = () => {
           <br />
           <label>Email: </label>
           <input
-            type="text"
+            type="email"
             name="email"
             value={info.email}
             onChange={updatedInfo}
