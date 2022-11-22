@@ -25,6 +25,7 @@ const App = () => {
       setInfo({
         name: "",
         email: "",
+        reset:""
       });
       console.log(data.findIndex);
     } else{
