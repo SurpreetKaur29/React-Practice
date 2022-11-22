@@ -26,9 +26,9 @@ const App = () => {
   const Deleted = (index, e) => {
     setData(data.filter((item, i) => i !== index));
   };
-  // const Edited = () => {
+  const Edited = () => {
 
-  // };
+  };
   // const [number, setNumber] = useState(0);
 
   // function addition() {
