@@ -17,12 +17,6 @@ const App = () => {
     });
   };
 
-  const updatedInfo2 = (e) => {
-    setInfo({
-      ...info,
-      [e.target.reset]: e.target.value,
-    });
-  };
   const printInfo = (e) => {
     e.preventDefault();
     
