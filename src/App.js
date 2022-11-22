@@ -23,9 +23,13 @@ const App = () => {
     if(data){
       setData([...data, info]);
       setInfo({
+<<<<<<< Updated upstream
         name: "",
         email: "",
         reset:""
+=======
+        name: ""
+>>>>>>> Stashed changes
       });
       console.log(data.findIndex);
     } else{
