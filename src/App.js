@@ -35,7 +35,10 @@ const App = () => {
   const Deleted = (index, e) => {
     setData(data.filter((item, i) => i !== index));
   };
-  const Edited = () => {};
+  const Edited = () => {
+        number < 25 ? setNumber(number + 1) : setNumber(10);
+
+  };
   // const [number, setNumber] = useState(0);
 
   // function addition() {
