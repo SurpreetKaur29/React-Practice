@@ -9,35 +9,31 @@ const App = () => {
     name: "",
     email: "",
   });
-
   const updatedInfo = (e) => {
     setInfo({
       ...info,
-      [e.target.reset]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
-
   const printInfo = (e) => {
     e.preventDefault();
-    
-    if(data){
-      setData([...data, info]);
-      setInfo({
-        name: "",
-        email: "",
-        reset:""
-      });
-      console.log(data.findIndex);
-    } else{
-      alert("Email repetition not allowed!");
-    }
+    const arrIndex = data.findIndex(item => item.email === info.email);
+    console.log("Find Index", arrIndex);
+    if(arrIndex === -1){
+    setData([...data, info]);
+    setInfo({
+      name: "",
+      email: "",
+    });
+  }else{
+    console.log("Email repetition not allowed!");
+  }
   };
   const Deleted = (index, e) => {
     setData(data.filter((item, i) => i !== index));
   };
   const Edited = () => {
-        number < 25 ? setNumber(number + 1) : setNumber(10);
-
+    number < 10 ? setNumber(number + 1) : setNumber(10);
   };
   // const [number, setNumber] = useState(0);
 
@@ -68,7 +64,7 @@ const App = () => {
           <br />
           <label>Email: </label>
           <input
-            type="email"
+            type="text"
             name="email"
             value={info.email}
             onChange={updatedInfo}
