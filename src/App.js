@@ -33,7 +33,7 @@ const App = () => {
     setData(data.filter((item, i) => i !== index));
   };
   const Edited = () => {
-
+    number < 10 ? setNumber(number + 1) : setNumber(10);
   };
   // const [number, setNumber] = useState(0);
 
