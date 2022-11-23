@@ -5,6 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [edit, setEdit] = useState(false);
   const [info, setInfo] = useState({
     name: "",
     email: "",
@@ -12,45 +13,54 @@ const App = () => {
   const updatedInfo = (e) => {
     setInfo({
       ...info,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
   const printInfo = (e) => {
     e.preventDefault();
-    const arrIndex = data.findIndex(item => item.email === info.email);
-    console.log("Find Index", arrIndex);
-    if(arrIndex === -1){
-    setData([...data, info]);
-    setInfo({
-      name: "",
-      email: "",
-    });
-  }else{
-    console.log("Email repetition not allowed!");
-  }
+    const arrIndex = data.findIndex((item) => item.email === info.email);
+    //console.log("Find Index", arrIndex);
+    if (arrIndex === -1) {
+      setData([...data, info]);
+      setInfo({
+        name: "",
+        email: "",
+      });
+    } else {
+      alert("Email repetition not allowed!");
+    }
   };
+
+  const updateInfo = (e) => {
+    const updateData = [...data]
+    e.preventDefault();
+    const index = data.findIndex((item) => item.email === info.email);
+    //console.log("Find Index", arrIndex);
+    if (index === -1) {
+      return ;
+    } else {
+      updateData[index].name = info.name;
+      setData(updateData);
+      setInfo({
+        name: "",
+        email: "",
+      });
+      setEdit(false)
+    }
+  };
+
   const Deleted = (index, e) => {
     setData(data.filter((item, i) => i !== index));
   };
-  const Edited = () => {
-    number < 10 ? setNumber(number + 1) : setNumber(10);
+  const Edited = (item) => {
+    setInfo(item);
+    setEdit(true)
   };
-  // const [number, setNumber] = useState(0);
-
-  // function addition() {
-  //   number < 10 ? setNumber(number + 1) : setNumber(10);
-  // }
-
-  // function substraction() {
-  //   if (number > 0) {
-  //     setNumber(number - 1);
-  //   }
-  // }
 
   return (
     <>
       <div className="margin-auto form-div">
-        <form onSubmit={printInfo}>
+        <form onSubmit={edit ? updateInfo : printInfo}>
           <h3>Fill the form</h3>
           <label>Name: </label>
           <input
@@ -64,11 +74,12 @@ const App = () => {
           <br />
           <label>Email: </label>
           <input
-            type="text"
+            type="email"
             name="email"
             value={info.email}
             onChange={updatedInfo}
             required
+            disabled={edit}
           />
           <br />
           <br />
@@ -91,7 +102,7 @@ const App = () => {
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>
-                  <button onClick={Edited}>
+                  <button onClick={(e) => Edited(item)}>
                     <FaEdit />
                   </button>
                 </td>
