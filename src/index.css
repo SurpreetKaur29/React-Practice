@@ -70,3 +70,7 @@ td button {
 thead {
   height: 35px;
 }
+tbody {
+  display: flex;
+  flex-direction: column-reverse;
+}

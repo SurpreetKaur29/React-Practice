@@ -1,71 +1,78 @@
 import React, { useState } from "react";
 import "./index.css";
 
-
 const DataForm = () => {
   const [edit, setEdit] = useState(false);
   const [detail, setDetail] = useState([]);
   const [record, setRecord] = useState({
-      name:"",
-      email:""
+    name: "",
+    email: "",
   });
 
   const onChanged = (e) => {
     setRecord({
       ...record,
-      [e.target.name] : e.target.value
-    }
-    )
+      [e.target.name]: e.target.value,
+    });
     //console.log(e.target.value)
   };
 
   const saveRecord = (e) => {
     e.preventDefault();
-    const arrIndex = detail.findIndex((item) => item.email === record.email);
-    if(arrIndex === -1){
-    setRecord({
-      name:"",
-      email:""
-    });
-    setDetail([...detail, record]);
-    }else{
-      alert("Email should not be repeated!")
+console.log("!record.name", !record.name)
+    if(!record.name) {
+      alert("Name is required.");
+    } else if (!record.email) {
+      alert("Email is required");
+    } else {
+      const arrIndex = detail.findIndex((item) => item.email === record.email);
+      if (arrIndex === -1) {
+        setRecord({
+          name: "",
+          email: "",
+        });
+        setDetail([...detail, record]);
+      } else {
+        alert("Email should not be repeated!");
+      }
     }
-    console.log("detail", detail); 
-  };  
+  };
 
   const updateRecord = (e) => {
-    const newUpdate = [...detail]
+    const newUpdate = [...detail];
     e.preventDefault();
-    const arrIndex = detail.findIndex((item) => item.email === record.email);
-    if(arrIndex === -1){
-    return ;
-    }else{
-    newUpdate[arrIndex].name = record.name;
-    setDetail(newUpdate);
-    setRecord({
-      name:"",
-      email:""
-    });
-    setEdit(false);
+    if(!record.name) {
+      alert("Name is required.");
+    } else {
+      const arrIndex = detail.findIndex((item) => item.email === record.email);
+    if (arrIndex === -1) {
+      return;
+    } else {
+      newUpdate[arrIndex].name = record.name;
+      setDetail(newUpdate);
+      setRecord({
+        name: "",
+        email: "",
+      });
+      setEdit(false);
     }
-    console.log("detail", detail); 
-  };  
+    }
+    
+    console.log("detail", detail);
+  };
 
   const deleted = (index, e) => {
     const checkFilter = (item, i) => i !== index;
-    setDetail(
-      detail.filter(checkFilter)
-    )
+    setDetail(detail.filter(checkFilter));
     setEdit(false);
     console.log("index", index);
-  }
+  };
 
   const edited = (item) => {
     console.log("edited");
     setEdit(true);
     setRecord(item);
-  }
+  };
 
   return (
     <>
@@ -76,9 +83,8 @@ const DataForm = () => {
           <input
             type="text"
             name="name"
-            value={record.name} 
+            value={record.name}
             onChange={onChanged}
-            required
           />
           <br />
           <br />
@@ -88,12 +94,11 @@ const DataForm = () => {
             name="email"
             value={record.email}
             onChange={onChanged}
-            required
             disabled={edit}
           />
           <br />
           <br />
-          {edit ? <button>Update</button>  : <button>Submit</button>}
+          {edit ? <button>Update</button> : <button>Submit</button>}
         </form>
       </div>
       <div className="margin-auto">
@@ -108,28 +113,24 @@ const DataForm = () => {
           </thead>
           <tbody>
             {detail.map((item, index) => {
-              return(
-              <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.email}</td>
-              <td>
-                <button onClick={() => edited(item)}>
-                  Edit
-                </button>
-              </td>
-              <td>
-                <button onClick={(e) => deleted(index, e)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-            )})} 
+              return (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>
+                    <button onClick={() => edited(item)}>Edit</button>
+                  </td>
+                  <td>
+                    <button onClick={(e) => deleted(index, e)}>Delete</button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     </>
   );
 };
-
 
 export default DataForm;
