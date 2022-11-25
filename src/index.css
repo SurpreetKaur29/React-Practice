@@ -37,7 +37,7 @@ code {
 tr {
   text-align: left;
   display: grid;
-  grid-template-columns: 45% 45% 5% 5%;
+  grid-template-columns: 4% 40% 40% 8% 8%;
 }
 .form-div {
   max-width: fit-content;
@@ -73,4 +73,12 @@ thead {
 tbody {
   display: flex;
   flex-direction: column-reverse;
+}
+.del_main {
+  text-align: right;
+  margin-bottom: 30px;
+}
+input[type="checkbox"] {
+  height: auto;
+  margin: 0;
 }

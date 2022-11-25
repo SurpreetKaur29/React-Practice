@@ -1,14 +1,18 @@
+import { getDefaultNormalizer } from "@testing-library/react";
 import React, { useState } from "react";
 import "./index.css";
 
 const DataForm = () => {
   const [edit, setEdit] = useState(false);
   const [detail, setDetail] = useState([]);
-  const [record, setRecord] = useState({
+  const [record, setRecord] = useState( {
     name: "",
     email: "",
   });
+  const [error, setError] = useState(null);
+  const [checked, setChecked] = useState(false);
 
+  // input onchange
   const onChanged = (e) => {
     setRecord({
       ...record,
@@ -17,13 +21,15 @@ const DataForm = () => {
     //console.log(e.target.value)
   };
 
+  // on submit
   const saveRecord = (e) => {
     e.preventDefault();
-console.log("!record.name", !record.name)
-    if(!record.name) {
-      alert("Name is required.");
+    setError(null);
+    if (!record.name) {
+      setError({ name: "This field is required." });
     } else if (!record.email) {
-      alert("Email is required");
+      // console.log("!record.email", !record.email);
+      setError({ email: "This field is required." });
     } else {
       const arrIndex = detail.findIndex((item) => item.email === record.email);
       if (arrIndex === -1) {
@@ -32,35 +38,40 @@ console.log("!record.name", !record.name)
           email: "",
         });
         setDetail([...detail, record]);
+        setError();
       } else {
         alert("Email should not be repeated!");
       }
     }
   };
 
+  //on update
   const updateRecord = (e) => {
     const newUpdate = [...detail];
     e.preventDefault();
-    if(!record.name) {
-      alert("Name is required.");
+    setError(null);
+    if (!record.name) {
+      setError({ name: "This field is required." });
     } else {
       const arrIndex = detail.findIndex((item) => item.email === record.email);
-    if (arrIndex === -1) {
-      return;
-    } else {
-      newUpdate[arrIndex].name = record.name;
-      setDetail(newUpdate);
-      setRecord({
-        name: "",
-        email: "",
-      });
-      setEdit(false);
+      if (arrIndex === -1) {
+        return;
+      } else {
+        newUpdate[arrIndex].name = record.name;
+        setDetail(newUpdate);
+        setRecord({
+          name: "",
+          email: "",
+        });
+        setEdit(false);
+        setError();
+      }
     }
-    }
-    
+
     console.log("detail", detail);
   };
 
+  // on delete
   const deleted = (index, e) => {
     const checkFilter = (item, i) => i !== index;
     setDetail(detail.filter(checkFilter));
@@ -68,11 +79,17 @@ console.log("!record.name", !record.name)
     console.log("index", index);
   };
 
+  // on edit
   const edited = (item) => {
     console.log("edited");
     setEdit(true);
     setRecord(item);
   };
+
+  // on checkmark
+  const checkedForDelete = () => {
+    setChecked(!checked)
+  }
 
   return (
     <>
@@ -87,6 +104,8 @@ console.log("!record.name", !record.name)
             onChange={onChanged}
           />
           <br />
+          {error?.name && <small>{error.name}</small>}
+          <br />
           <br />
           <label>Email: </label>
           <input
@@ -97,14 +116,22 @@ console.log("!record.name", !record.name)
             disabled={edit}
           />
           <br />
+          {error?.email && <small>{error.email}</small>}
+          <br />
           <br />
           {edit ? <button>Update</button> : <button>Submit</button>}
         </form>
       </div>
       <div className="margin-auto">
+        <div className="del_main">
+          <button className="del">Delete</button>
+        </div>
         <table width="100%">
           <thead>
             <tr>
+              <th>
+                <input type="checkbox" disabled/>
+              </th>
               <th>Name</th>
               <th>Email</th>
               <th>Edit</th>
@@ -115,6 +142,9 @@ console.log("!record.name", !record.name)
             {detail.map((item, index) => {
               return (
                 <tr key={index}>
+                  <td>
+                    <input type="checkbox" onClick={checkedForDelete} name={item.name} value={item.name}/>
+                  </td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
                   <td>
