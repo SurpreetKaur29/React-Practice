@@ -70,10 +70,6 @@ td button {
 thead {
   height: 35px;
 }
-tbody {
-  display: flex;
-  flex-direction: column-reverse;
-}
 .del_main {
   text-align: right;
   margin-bottom: 30px;

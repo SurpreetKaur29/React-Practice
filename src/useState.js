@@ -5,12 +5,12 @@ import "./index.css";
 const DataForm = () => {
   const [edit, setEdit] = useState(false);
   const [detail, setDetail] = useState([]);
-  const [record, setRecord] = useState( {
+  const [record, setRecord] = useState({
     name: "",
     email: "",
   });
   const [error, setError] = useState(null);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState([]);
 
   // input onchange
   const onChanged = (e) => {
@@ -87,8 +87,18 @@ const DataForm = () => {
   };
 
   // on checkmark
-  const checkedForDelete = () => {
-    setChecked(!checked)
+  const checkedForDelete = (index) => {
+    const i = checked.indexOf(index);
+    if (i > -1) {
+      setChecked(checked.filter((c) => c !== index));
+    } else {
+      setChecked([...checked, index]);
+    }
+  };
+
+  //Delete all
+  const deleteSelected = (e, index) => {
+    console.log("checked", checked);
   }
 
   return (
@@ -124,13 +134,13 @@ const DataForm = () => {
       </div>
       <div className="margin-auto">
         <div className="del_main">
-          <button className="del">Delete</button>
+          <button className="del" onClick={deleteSelected}>Delete</button>
         </div>
         <table width="100%">
           <thead>
             <tr>
               <th>
-                <input type="checkbox" disabled/>
+                <input type="checkbox" disabled />
               </th>
               <th>Name</th>
               <th>Email</th>
@@ -143,7 +153,13 @@ const DataForm = () => {
               return (
                 <tr key={index}>
                   <td>
-                    <input type="checkbox" onClick={checkedForDelete} name={item.name} value={item.name}/>
+                    <input
+                      type="checkbox"
+                      onChange={() => checkedForDelete(index)}
+                      name={item.name}
+                      value={index}
+                      id={`checkbox-${index}`}
+                    />
                   </td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
